@@ -1,4 +1,21 @@
 
+def date_formate(func):
+    def inner(*args, **kwargs):
+        result = func(*args, **kwargs)
+        if ' ' in result:
+            day = result.split()[0]
+            month = result.split()[1]
+            year = result.split()[2]
+            print(f"{day} - {month} - {year}")
+        if '/' in result:
+            day = result.split('/')[0]
+            month = result.split('/')[1]
+            year = result.split('/')[2]
+            print(f"{day} - {month} - {year}")
+        return result
+    return inner
+
+
 def type_casting(to_upper, to_lower, to_split):
     def wrapper(func):
         def inner(*args, **kwargs):
@@ -39,9 +56,15 @@ def type_casting(to_upper, to_lower, to_split):
         return inner
     return wrapper
 
+@date_formate
+def formater(string: str):
+    return string
+
 @type_casting(to_upper='', to_lower='', to_split='True')
 def printer(string: str) -> str:
     return string
 
 if __name__ == '__main__':
     print(printer("HEllo, HOw are you"))
+    print(formater("6th Oct 2025"))
+    print(formater("6/11/2025"))
